@@ -1,4 +1,4 @@
 # Inscription
-![image](https://github.com/user-attachments/assets/50d9b9be-8c62-4800-b9ed-58459ce8970d)
+![image](https://github.com/user-attachments/assets/e5836aa9-0e98-418a-86be-d9bf89b066e9)
 # Connexion
-![image](https://github.com/user-attachments/assets/510ac8da-43a2-45f6-b6a9-7ecfa015432f)
+![image](https://github.com/user-attachments/assets/b7372e76-6105-4535-ae9b-3975c6f33460)
