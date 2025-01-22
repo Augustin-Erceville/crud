@@ -13,7 +13,7 @@ class Connexion {
     public function verificationUtilisateur($email, $password) {
         if (!empty($email) && !empty($password)) {
             try {
-                $req = $this->bdd->prepare('SELECT id_user, email, password FROM utilisateur WHERE email = :email');
+                $req = $this->getBdd()->prepare('SELECT id_user, email, password FROM utilisateur WHERE email = :email');
                 $req->execute(['email' => $email]);
                 $user = $req->fetch();
 
@@ -34,6 +34,14 @@ class Connexion {
         } else {
             return "Tous les champs doivent être remplis.";
         }
+    }
+    public function getBdd()
+    {
+        return $this->bdd;
+    }
+    public function setBdd($bdd)
+    {
+        $this->bdd = $bdd;
     }
 }
 
@@ -70,7 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <?php endif; ?>
     <form action="" method="post">
         <div class="mb-3">
-            <label for="email" class="form-label">Adresse mail</label>
+            <label for="email" class="form-label">Adresse email</label>
             <input type="email" name="email" id="email" class="form-control" required>
         </div>
         <div class="mb-3">
