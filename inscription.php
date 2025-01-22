@@ -2,17 +2,23 @@
 include ("config.php");
 class inscription{
     public $bdd;
+    public function getBdd(){
+        return $this->bdd;
+    }
+    public function setBdd($bdd){
+        $this->bdd=$bdd;
+    }
     public function __construct($bdd) {
-        $this->bdd = $bdd;
+        $this->bdd=$bdd;
     }
     public function envoisFormulaire() {
         if (isset($_POST['envoyer'])) {
-            $prenom = $_POST['prenom'];
-            $nom = $_POST['nom'];
-            $naissance = $_POST['naissance'];
-            $telephone = $_POST['telephone'];
-            $email = $_POST['email'];
-            $password = $_POST['password'];
+            $prenom=$_POST['prenom'];
+            $nom=$_POST['nom'];
+            $naissance=$_POST['naissance'];
+            $telephone=$_POST['telephone'];
+            $email=$_POST['email'];
+            $password=$_POST['password'];
             if ($this->validationDonnee($prenom, $nom, $naissance, $telephone, $email, $password)) {
                 if ($this->ajoutUtilisateur($prenom, $nom, $naissance, $telephone, $email, $password)) {
                     $_SESSION['email'] = $email;
@@ -28,14 +34,11 @@ class inscription{
         return null;
     }
     public function validationDonnee($prenom, $nom, $naissance, $telephone, $email, $password) {
-        return !empty($prenom) && !empty($nom) && !empty($naissance) &&
-            !empty($telephone) && !empty($email) && !empty($password) &&
-            filter_var($email, FILTER_VALIDATE_EMAIL);
+        return !empty($prenom)&&!empty($nom) &&!empty($naissance) &&!empty($telephone)&&!empty($email)&&!empty($password)&&filter_var($email, FILTER_VALIDATE_EMAIL);
     }
     private function ajoutUtilisateur($prenom, $nom, $naissance, $telephone, $email, $password) {
         $req = $this->bdd->prepare(
-            'INSERT INTO utilisateur (prenom, nom, telephone, email, password, naissance) 
-             VALUES (:prenom, :nom, :telephone, :email, :password, :naissance)'
+            'INSERT INTO utilisateur (prenom, nom, telephone, email, password, naissance) VALUES (:prenom, :nom, :telephone, :email, :password, :naissance)'
         );
         return $req->execute([
             'prenom' => $prenom,
@@ -65,12 +68,11 @@ $message = $inscription->envoisFormulaire();
     <h1>Inscription</h1>
     <form action="" method="post">
         <div class="mb-3">
-            <label for="prenom" class="form-label">Prénom</label><br>
-            <input type="text" name="prenom" class="form-control" id="prenom" placeholder="Votre prénom" aria-label="default input example" required/>
-        </div>
-        <div class="mb-3">
-            <label for="nom" class="form-label">Nom de famille</label>
-            <input type="text" name="nom" class="form-control" id="nom" placeholder="Votre nom de famille" aria-label="default input example" required>
+            <div class="input-group">
+                <span class="input-group-text">Prénom & Nom</span>
+                <input type="text" name="prenom" id="prenom" placeholder="Prénom" aria-label="First name" class="form-control" required>
+                <input type="text" name="nom" id="nom" placeholder="Nom de famille" aria-label="Last name" class="form-control" required>
+            </div>
         </div>
         <div class="mb-3">
             <label for="naissance">Date de naissance</label>
@@ -83,13 +85,19 @@ $message = $inscription->envoisFormulaire();
             <label for="telephone">Numéro de téléphone</label>
             <input type="tel" name="telephone" class="form-control" id="telephone" placeholder="Votre numéro de téléphone" aria-label="default input example" required>
         </div>
-        <div class="mb-3">
-            <label for="email" class="form-label">Email address</label>
-            <input type="email" name="email" class="form-control" id="email" placeholder="adresse@email.com" required>
-        </div>
-        <div class="mb-3">
-            <label for="password" class="form-label">Password</label>
-            <input type="password" name="password" class="form-control" id="password" placeholder="Votremotdepasse" aria-describedby="passwordHelpBlock" required>
+        <div class="row">
+            <div class="col">
+                <div class="mb-3">
+                    <label for="email" class="form-label">Adresse email</label>
+                    <input type="email" name="email" class="form-control" id="email" placeholder="adresse@email.com" required>
+                </div>
+            </div>
+            <div class="col">
+                <div class="mb-3">
+                    <label for="password" class="form-label">Mot de passe</label>
+                    <input type="password" name="password" class="form-control" id="password" placeholder="Votremotdepasse" aria-describedby="passwordHelpBlock" required>
+                </div>
+            </div>
         </div>
         <div class="d-grid gap-2">
             <input type="submit" class="btn btn-outline-success" name="envoyer" id="envoyer" value="S'inscrire"/>
